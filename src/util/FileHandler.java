@@ -6,10 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Collections;
+import contact.Contact;
 
 public class FileHandler{
     private String directory, fileName;
-    Path path = Paths.get("Contacts", "contacts.txt");
+    private Path path = Paths.get("Contacts", "contacts.txt");
 
     public static void main (String[] args) throws IOException {
         FileHandler filehandler = new FileHandler();
