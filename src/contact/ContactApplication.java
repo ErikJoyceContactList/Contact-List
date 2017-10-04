@@ -30,6 +30,7 @@ public class ContactApplication {
         System.out.println(contactList);
 
         menu(phoneBook,contactList);
+        filehandler.getContacts();
 
 
     }
@@ -50,6 +51,7 @@ public class ContactApplication {
             userInput = input.getInt(1, 5);
             switch (userInput) {
                 case 1:
+
                     break;
                 case 2:
                     buildList(phoneBook, contactList);

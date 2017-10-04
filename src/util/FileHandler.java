@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import contact.Contact;
 
 public class FileHandler{
@@ -29,7 +32,14 @@ public class FileHandler{
         }
 
 //    method for retrieving file contents as a List of Strings
+        public void getContacts() throws IOException{
+            Path printList= Paths.get("Contacts","contacts.txt");
+            List<String> printedList=Files.readAllLines(printList);
+            for(int i=0; i<printedList.size();i++){
+                System.out.println(i+ ": "+printedList.get(i));
+            }
 
+        }
 //    Create a method to write(append) new contents to a file. Optional parameter choose to append or overwrite
         public void writeFile(ArrayList<String> list) throws IOException {
             Files.write(path, list, StandardOpenOption.APPEND);
