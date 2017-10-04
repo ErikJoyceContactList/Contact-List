@@ -35,7 +35,7 @@ public class FileHandler{
         public void getContacts() throws IOException{
             Path printList= Paths.get("Contacts","contacts.txt");
             List<String> printedList=Files.readAllLines(printList);
-            for(int i=0; i<printedList.size();i++){
+            for(int i=0 ; i < printedList.size() ; i++){
                 System.out.println(i+ ": "+printedList.get(i));
             }
 
@@ -45,4 +45,44 @@ public class FileHandler{
             Files.write(path, list, StandardOpenOption.APPEND);
         }
 
+//    Create a method to find and retrieve a phone number using a name
+
+        public String findNumber() throws IOException {
+            Input input = new Input();
+            List<String> numbers = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
+
+            System.out.println("Enter a contact name:");
+            String userInput = input.getString();
+
+            for (String number : numbers) {
+                if (number.substring(0, userInput.length()).equals(userInput)) {
+                    return number.substring(userInput.length() + 2);
+                }
+            }
+
+            return "Contact not found";
+        }
+
+//      Create a method to find and delete a phone number using a name
+
+        public void deleteContact() throws IOException {
+            Input input = new Input();
+            List<String> numbers = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
+            ArrayList<String> newList = new ArrayList<>();
+
+            System.out.println("Enter a contact name:");
+            String userInput = input.getString();
+
+            for (String number : numbers) {
+                if (number.substring(0, userInput.length()).equals(userInput)) {
+                    numbers.remove(number);
+                    continue;
+                }
+
+                newList.add(number);
+            }
+
+            writeFile(newList);
+
+        }
 }

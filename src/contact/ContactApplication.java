@@ -16,30 +16,17 @@ public class ContactApplication {
         ArrayList<Contact> contactList = new ArrayList<>();
         ArrayList<String> phoneBook = new ArrayList<>();
 
-        FileHandler filehandler = new FileHandler();
-
-
-        Contact bill = new Contact("Bill","215-435-2198");
-
-        System.out.println(bill.getName() + " " + bill.getPhone());
-        contactList.add(bill);
-        System.out.println(contactList);
-        System.out.println(contactList.get(0).getName());
-
-        buildList (phoneBook, contactList);
-        System.out.println(contactList);
-
         menu(phoneBook,contactList);
-        filehandler.getContacts();
 
 
     }
 
     public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
+        FileHandler filehandler = new FileHandler();
         int userInput;
         do {
-            System.out.println("Phone Application\n");
+            System.out.println("\nPhone Application\n");
             System.out.println("-----------------\n");
             System.out.println("1. View contacts.");
             System.out.println("2. Add a new contact.");
@@ -51,14 +38,16 @@ public class ContactApplication {
             userInput = input.getInt(1, 5);
             switch (userInput) {
                 case 1:
-
+                    filehandler.getContacts();
                     break;
                 case 2:
                     buildList(phoneBook, contactList);
                     break;
                 case 3:
+                    System.out.println(filehandler.findNumber());
                     break;
                 case 4:
+                    filehandler.deleteContact();
                     break;
                 case 5:
                     System.out.println("You have quit the application.");
