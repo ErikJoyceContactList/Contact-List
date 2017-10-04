@@ -31,7 +31,7 @@ public class FileHandler{
 //    method for retrieving file contents as a List of Strings
 
 //    Create a method to write(append) new contents to a file. Optional parameter choose to append or overwrite
-        public void writeFile(ArrayList<Contact> list) throws IOException {
+        public void writeFile(ArrayList<String> list) throws IOException {
             Files.write(path, list, StandardOpenOption.APPEND);
         }
 
