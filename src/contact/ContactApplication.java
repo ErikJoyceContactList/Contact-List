@@ -1,3 +1,4 @@
+package contact;
 import util.Input;
 import util.FileHandler;
 
@@ -26,15 +27,15 @@ public class ContactApplication {
         System.out.println(contactList.get(0).getName());
 
         buildList (phoneBook, contactList);
-        filehandler.writeFile(phoneBook);
         System.out.println(contactList);
 
-        menu();
+        menu(phoneBook,contactList);
+        filehandler.getContacts();
 
 
     }
 
-    public static void menu() {
+    public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
         int userInput;
         do {
@@ -50,8 +51,10 @@ public class ContactApplication {
             userInput = input.getInt(1, 5);
             switch (userInput) {
                 case 1:
+
                     break;
                 case 2:
+                    buildList(phoneBook, contactList);
                     break;
                 case 3:
                     break;
@@ -65,8 +68,10 @@ public class ContactApplication {
 
     }
 
-    public static void buildList (ArrayList<String> phoneBook, ArrayList<Contact> contactList) {
+    public static void buildList(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException{
         Input input = new Input();
+        FileHandler fileHandler=new FileHandler();
+        ArrayList<String> aTemp=new ArrayList<>();
 
         System.out.println("Enter name of contact:");
         System.out.print("> ");
@@ -79,10 +84,12 @@ public class ContactApplication {
 
         // Add a string to String ArrayList
         phoneBook.add(name + ", " + number);
+        aTemp.add(name +", "+number);
 
 
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
         contactList.add(temp);
+        fileHandler.writeFile(aTemp);
     }
 }
