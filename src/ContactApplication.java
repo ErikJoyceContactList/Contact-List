@@ -1,15 +1,26 @@
 import util.Input;
+import util.FileHandler;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+
+import static com.sun.deploy.perf.DeployPerfUtil.write;
+
 public class ContactApplication {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         ArrayList<Contact> contactList =new ArrayList<>();
+        FileHandler filehandler = new FileHandler();
+
         Contact bill= new Contact("Bill","215-435-2198");
+
         System.out.println(bill.getName()+" "+bill.getPhone());
         contactList.add(bill);
         System.out.println(contactList);
         System.out.println(contactList.get(0).getName());
+
+        filehandler.writeFile(contactList);
+
         menu();
     }
     public static void menu() {
