@@ -41,8 +41,12 @@ public class FileHandler{
 
         }
 //    Create a method to write(append) new contents to a file. Optional parameter choose to append or overwrite
-        public void writeFile(ArrayList<String> list) throws IOException {
-            Files.write(path, list, StandardOpenOption.APPEND);
+        public void writeFile(List<String> list, String rewrite) throws IOException {
+            if(rewrite.equalsIgnoreCase("y")){
+                Files.write(path, list);
+            }else {
+                Files.write(path, list, StandardOpenOption.APPEND);
+            }
         }
 
 //    Create a method to find and retrieve a phone number using a name
@@ -68,21 +72,22 @@ public class FileHandler{
         public void deleteContact() throws IOException {
             Input input = new Input();
             List<String> numbers = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
-            ArrayList<String> newList = new ArrayList<>();
+            List<String> newList = new ArrayList<>();
 
             System.out.println("Enter a contact name:");
             String userInput = input.getString();
 
             for (String number : numbers) {
+                System.out.println(number);
+                System.out.println(number.substring(0,2));
                 if (number.substring(0, userInput.length()).equals(userInput)) {
-                    numbers.remove(number);
                     continue;
                 }
 
                 newList.add(number);
             }
 
-            writeFile(newList);
+            writeFile(newList,"y");
 
         }
 }

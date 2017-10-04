@@ -79,6 +79,6 @@ public class ContactApplication {
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
         contactList.add(temp);
-        fileHandler.writeFile(aTemp);
+        fileHandler.writeFile(aTemp,"");
     }
 }
