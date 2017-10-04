@@ -1,3 +1,6 @@
+package contact;
+
+import contact.Contact;
 import util.Input;
 import util.FileHandler;
 
@@ -9,7 +12,7 @@ import static com.sun.deploy.perf.DeployPerfUtil.write;
 
 public class ContactApplication {
     public static void main(String[] args) throws IOException {
-        ArrayList<Contact> contactList =new ArrayList<>();
+        ArrayList<Contact> contactList =new ArrayList<>(); //This needs to be a string list to write to a file
         FileHandler filehandler = new FileHandler();
 
         Contact bill= new Contact("Bill","215-435-2198");
@@ -18,7 +21,7 @@ public class ContactApplication {
         contactList.add(bill);
         System.out.println(contactList);
         System.out.println(contactList.get(0).getName());
-
+        filehandler.makeFile(); //This does not work since it is a new object?
         filehandler.writeFile(contactList);
 
         menu();
