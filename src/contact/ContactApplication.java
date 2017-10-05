@@ -1,5 +1,6 @@
 package contact;
 import util.Input;
+//import util.FileHandlerOld;
 import util.FileHandler;
 
 import java.io.IOException;
@@ -23,8 +24,7 @@ public class ContactApplication {
 
     public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
-        FileHandler filehandler = new FileHandler();
-        filehandler.makeFile();
+        FileHandler fileHandler = new FileHandler("Contacts","contacts.txt");
         int userInput;
         do {
             System.out.println("\nPhone Application\n");
@@ -39,16 +39,16 @@ public class ContactApplication {
             userInput = input.getInt(1, 5);
             switch (userInput) {
                 case 1:
-                    filehandler.getContacts();
+                    displayContacts(fileHandler);
                     break;
                 case 2:
-                    buildList(phoneBook, contactList);
+                    addContact(contactList, fileHandler);
                     break;
                 case 3:
-                    System.out.println(filehandler.findNumber());
+//                    System.out.println(filehandler.findNumber());
                     break;
                 case 4:
-                    filehandler.deleteContact();
+//                    filehandler.deleteContact();
                     break;
                 case 5:
                     System.out.println("You have quit the application.");
@@ -57,10 +57,24 @@ public class ContactApplication {
         } while(userInput!=5);
 
     }
+    public static void displayContacts(FileHandler fileHandler){
+        List<String> aList=fileHandler.retrieveFileContents();
+        String aName, aNumber;
+        int commaIndex;
+        System.out.println("Name | Phone Number");
 
-    public static void buildList(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException{
+        System.out.println("-------------------");
+
+        for (int i = 0; i < aList.size(); i++) {
+            commaIndex = aList.get(i).indexOf(",");
+            aName = aList.get(i).substring(0, commaIndex);
+            aNumber = aList.get(i).substring(commaIndex + 2);
+            System.out.println(aName + " | " + aNumber);
+        }
+    }
+
+    public static void addContact(ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
         Input input = new Input();
-        FileHandler fileHandler=new FileHandler();
         ArrayList<String> aTemp=new ArrayList<>();
 
         System.out.println("Enter name of contact:");
@@ -73,12 +87,25 @@ public class ContactApplication {
 
 
         // Add a string to String ArrayList
-        phoneBook.add(name + ", " + number);
         aTemp.add(name +", "+number);
-        fileHandler.writeFile(aTemp,"");
+        fileHandler.writeToFile(aTemp, "append");
 
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
         contactList.add(temp);
+    }
+    public static String searchContact(FileHandler fileHandler){
+        Input input=new Input();
+        List<String> aList=fileHandler.retrieveFileContents();
+        System.out.println("Enter a contact name:");
+        String userInput = input.getString();
+
+        for (String contact : aList) {
+            if (contact.substring(0, userInput.length()).equals(userInput)) {
+                return contact.substring(())
+            }
+        }
+
+        fileHandler.writeToFile(newList,"");
     }
 }
