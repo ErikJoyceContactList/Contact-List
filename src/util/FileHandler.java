@@ -10,10 +10,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FileHandler {
-//        Private values
+
+    // Private values
     private String directory, fileName;
     private Path directoryPath, filePath;
-//Getters
+
+    // Getters
     public String getDirectory() {
         return directory;
     }
@@ -21,7 +23,9 @@ public class FileHandler {
     public String getFileName() {
         return fileName;
     }
-//    Filehandler constructor
+
+
+    // Filehandler constructor
     public FileHandler(String directory, String fileName){
         this.directory=directory;
         this.fileName=fileName;
@@ -37,6 +41,8 @@ public class FileHandler {
         this.createFileIfNotExist();
         this.filePath=Paths.get(fileName);
     }
+
+
     //    1. Create a method to create the file if it does not exist.
     private boolean createFileIfNotExist(){
         try{
@@ -50,7 +56,9 @@ public class FileHandler {
         return true;
     }
 
-//    2. Create a method to create the directory if it does not exist.
+
+
+    //    2. Create a method to create the directory if it does not exist.
     private boolean createDirectoryIfNotExist(){
         try{
             if(!Files.exists(this.directoryPath)){
@@ -62,7 +70,9 @@ public class FileHandler {
                 return true;
     }
 
-//    3. Create a method for retrieving file contents as a List of Strings.
+
+
+    //    3. Create a method for retrieving file contents as a List of Strings.
     public List<String> retrieveFileContents(){
         try{
             List<String> contents = Files.readAllLines(Paths.get(directory,fileName));
@@ -73,8 +83,10 @@ public class FileHandler {
 
     }
 
-// 4. Create a method to write (append) new contents to a file. This method could have an optional parameter to choose
-//       between appending the contents of the file or not.
+
+
+    // 4. Create a method to write (append) new contents to a file. This method could have an optional parameter to choose
+    //       between appending the contents of the file or not.
     public boolean writeToFile(List<String> contents, String option){
         try{
             if(option.equalsIgnoreCase("append")){

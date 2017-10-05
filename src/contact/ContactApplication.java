@@ -25,6 +25,8 @@ public class ContactApplication {
     public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
         FileHandler fileHandler = new FileHandler("Contacts","contacts.txt");
+        List<String> aList = fileHandler.retrieveFileContents();
+
         int userInput;
         do {
             System.out.println("\nPhone Application\n");
@@ -42,13 +44,18 @@ public class ContactApplication {
                     displayContacts(fileHandler);
                     break;
                 case 2:
-                    addContact(contactList, fileHandler);
+                    addContact(aList, fileHandler);
                     break;
                 case 3:
-//                    System.out.println(filehandler.findNumber());
+                    System.out.println("Enter a contact name:");
+                    String userName = input.getString();
+
+                    System.out.println(searchContact(aList, userName));
                     break;
                 case 4:
-//                    filehandler.deleteContact();
+                    System.out.println("Enter a contact name:");
+                    String deleteUserName = input.getString();
+                    deleteContact(aList, deleteUserName, fileHandler);
                     break;
                 case 5:
                     System.out.println("You have quit the application.");
@@ -73,9 +80,9 @@ public class ContactApplication {
         }
     }
 
-    public static void addContact(ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
+    public static void addContact(List<String> contactList, FileHandler fileHandler) throws IOException{
         Input input = new Input();
-        ArrayList<String> aTemp=new ArrayList<>();
+        ArrayList<String> aTemp = new ArrayList<>();
 
         System.out.println("Enter name of contact:");
         System.out.print("> ");
@@ -88,24 +95,68 @@ public class ContactApplication {
 
         // Add a string to String ArrayList
         aTemp.add(name +", "+number);
-        fileHandler.writeToFile(aTemp, "append");
+        String contactListLine;
 
-        // Add an object to Contact ArrayList
-        Contact temp = new Contact(name, number);
-        contactList.add(temp);
+
+        Boolean id = true;
+
+        for (int i = 0; i < contactList.size(); i++) {
+            contactListLine = contactList.toArray()[i].toString().substring(0, name.length());
+
+            if (contactListLine.equals(name)) {
+
+                System.out.println("This item already exists. Please enter a unique entry.");
+
+                id = false;
+
+                break;
+            }
+
+        }
+
+        if (id) {
+
+            fileHandler.writeToFile(aTemp, "append");
+
+        } else {
+
+            System.out.println("This is a duplicated item.");
+
+        }
+
+
+
+//        // Add an object to Contact ArrayList
+//        Contact temp = new Contact(name, number);
+//        contactList.add(temp);
     }
-    public static String searchContact(FileHandler fileHandler){
-        Input input=new Input();
-        List<String> aList=fileHandler.retrieveFileContents();
-        System.out.println("Enter a contact name:");
-        String userInput = input.getString();
 
-        for (String contact : aList) {
+    public static String searchContact(List<String> list, String userInput){
+
+        for (String contact : list) {
             if (contact.substring(0, userInput.length()).equals(userInput)) {
-                return contact.substring(())
+                return "Number: " + contact.substring(userInput.length() + 2);
             }
         }
 
-        fileHandler.writeToFile(newList,"");
+        return null;
+
+    }
+
+    public static void deleteContact(List<String> list, String userInput, FileHandler filehandler) {
+
+        List<String> newList = new ArrayList<>();
+
+        for (String contact : list) {
+            if (contact.substring(0, userInput.length()).equals(userInput)) {
+                continue;
+            }
+
+            newList.add(contact);
+        }
+
+        filehandler.writeToFile(newList, "");
+
+
     }
 }
