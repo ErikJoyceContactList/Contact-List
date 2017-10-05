@@ -74,7 +74,7 @@ public class FileHandlerTestCase {
 
 // 4. Create a method to write (append) new contents to a file. This method could have an optional parameter to choose
 //       between appending the contents of the file or not.
-    public boolean writeToFile(List contents){
+    public boolean writeToFile(List<String> contents){
         try{
             Files.write(Paths.get(directory,fileName), contents);
         }catch (IOException e){
