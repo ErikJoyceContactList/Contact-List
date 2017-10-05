@@ -42,7 +42,7 @@ public class ContactApplication {
                     displayContacts(fileHandler);
                     break;
                 case 2:
-                    addContact(phoneBook, contactList, fileHandler);
+                    addContact(contactList, fileHandler);
                     break;
                 case 3:
 //                    System.out.println(filehandler.findNumber());
@@ -72,8 +72,8 @@ public class ContactApplication {
             System.out.println(aName + " | " + aNumber);
         }
     }
-    public static void addContact(){}
-    public static void addContact(ArrayList<String> phoneBook, ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
+
+    public static void addContact(ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
         Input input = new Input();
         ArrayList<String> aTemp=new ArrayList<>();
 
@@ -87,12 +87,25 @@ public class ContactApplication {
 
 
         // Add a string to String ArrayList
-        phoneBook.add(name + ", " + number);
         aTemp.add(name +", "+number);
         fileHandler.writeToFile(aTemp, "append");
 
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
         contactList.add(temp);
+    }
+    public static String searchContact(FileHandler fileHandler){
+        Input input=new Input();
+        List<String> aList=fileHandler.retrieveFileContents();
+        System.out.println("Enter a contact name:");
+        String userInput = input.getString();
+
+        for (String contact : aList) {
+            if (contact.substring(0, userInput.length()).equals(userInput)) {
+                return contact.substring(())
+            }
+        }
+
+        fileHandler.writeToFile(newList,"");
     }
 }
