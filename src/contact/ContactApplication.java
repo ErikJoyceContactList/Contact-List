@@ -16,7 +16,11 @@ public class ContactApplication {
     public static void main(String[] args) throws IOException {
         ArrayList<Contact> contactList = new ArrayList<>();
         ArrayList<String> phoneBook = new ArrayList<>();
-
+        String test="a";
+        System.out.println(Integer.parseInt(test)/1);
+        System.out.println(validateNumber("123-456-7890"));
+        System.out.println(validateNumber("a23-456-7890"));
+        System.out.println(validateNumber("123a456-7890"));
         menu(phoneBook,contactList);
 
 
@@ -91,6 +95,7 @@ public class ContactApplication {
         System.out.println("Enter number of contact:");
         System.out.print("> ");
         String number = input.getString().trim();
+//        number=validateNumber(number);
 
 
         // Add a string to String ArrayList
@@ -129,6 +134,37 @@ public class ContactApplication {
 //        // Add an object to Contact ArrayList
 //        Contact temp = new Contact(name, number);
 //        contactList.add(temp);
+    }
+    public static String validateNumber(String phoneNumber){
+//        use a try catch to divide by 1 in order to catch the problem.
+//        char test='1';
+//        if(test==(int)test){
+//            System.out.println("it works");
+//        }
+        String aNum;
+            if(phoneNumber.length()==12){
+                for(int i=0;i<phoneNumber.length();i++){
+//                    System.out.println(aNum);
+
+                    if(i==0 || i==1 || i==2 || i==4 || i==5 || i==6 || i==8 || i==9 || i==10 || i==11){
+                        aNum= String.valueOf(phoneNumber.charAt(i));
+                        System.out.println(aNum);
+                        System.out.println((Integer.valueOf(aNum)));
+                        if(!aNum.equals(Integer.parseInt(aNum))){
+                            return "The phone number can only use numbers";
+                        }
+
+                    }
+
+                    if(i==3 || i==7){
+                        if(phoneNumber.charAt(i)!='-'){
+                            return "format your number with dashes";
+                        }
+                    }
+                }
+             return phoneNumber;
+            }
+        return "The phone number is not 7 or 10 digits";
     }
 
     public static String searchContact(List<String> list, String userInput){
