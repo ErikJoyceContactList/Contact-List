@@ -32,20 +32,37 @@ public class FileHandler{
         }
 
 //    method for retrieving file contents as a List of Strings
-        public void getContacts() throws IOException{
-            Path printList= Paths.get("Contacts","contacts.txt");
-            List<String> printedList=Files.readAllLines(printList);
+        public void getContacts() throws IOException {
+            Path printList = Paths.get("Contacts","contacts.txt");
+            List<String> printedList = Files.readAllLines(printList);
             for(int i=0 ; i < printedList.size() ; i++){
-                System.out.println(i+ ": "+printedList.get(i));
+                System.out.println((i+1)+ ": "+printedList.get(i));
             }
 
         }
 //    Create a method to write(append) new contents to a file. Optional parameter choose to append or overwrite
         public void writeFile(List<String> list, String rewrite) throws IOException {
-            if(rewrite.equalsIgnoreCase("y")){
-                Files.write(path, list);
-            }else {
-                Files.write(path, list, StandardOpenOption.APPEND);
+            List<String> contactList = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
+
+            Boolean id = true;
+
+            for (String listItem: contactList ) {
+                if (listItem.equals(list.toArray()[0])) {
+
+                    System.out.println("This item already exists. Please enter a unique entry.");
+
+                    id = false;
+                }
+
+            }
+
+
+            if (id) {
+                if (rewrite.equalsIgnoreCase("y")) {
+                    Files.write(path, list);
+                } else {
+                    Files.write(path, list, StandardOpenOption.APPEND);
+                }
             }
         }
 
@@ -78,8 +95,6 @@ public class FileHandler{
             String userInput = input.getString();
 
             for (String number : numbers) {
-                System.out.println(number);
-                System.out.println(number.substring(0,2));
                 if (number.substring(0, userInput.length()).equals(userInput)) {
                     continue;
                 }
