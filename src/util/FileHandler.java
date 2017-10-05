@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 public class FileHandler {
@@ -74,9 +75,13 @@ public class FileHandler {
 
 // 4. Create a method to write (append) new contents to a file. This method could have an optional parameter to choose
 //       between appending the contents of the file or not.
-    public boolean writeToFile(List<String> contents){
+    public boolean writeToFile(List<String> contents, String option){
         try{
-            Files.write(Paths.get(directory,fileName), contents);
+            if(option.equalsIgnoreCase("append")){
+                Files.write(Paths.get(directory,fileName), contents, StandardOpenOption.APPEND);
+            }else{
+                Files.write(Paths.get(directory,fileName), contents);
+            }
         }catch (IOException e){
             return false;
         }
