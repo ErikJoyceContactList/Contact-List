@@ -35,8 +35,17 @@ public class FileHandler{
         public void getContacts() throws IOException {
             Path printList = Paths.get("Contacts","contacts.txt");
             List<String> printedList = Files.readAllLines(printList);
+            String aName, aNumber;
+            int commaIndex;
+            System.out.println("Name | Phone Number");
+
+            System.out.println("-------------------");
+
             for(int i=0 ; i < printedList.size() ; i++){
-                System.out.println((i+1)+ ": "+printedList.get(i));
+                commaIndex=printedList.get(i).indexOf(",");
+                aName=printedList.get(i).substring(0,commaIndex);
+                aNumber=printedList.get(i).substring(commaIndex+2);
+                System.out.println(aName+" | "+aNumber);
             }
 
         }
