@@ -1,6 +1,3 @@
 bob, 123
-bob, 123
-bobby, 12345
-joyce ling, 123
-fer, 123
-fer 123, 123
+bob, 345
+joyce, 123

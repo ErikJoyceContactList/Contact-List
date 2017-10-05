@@ -55,12 +55,15 @@ public class FileHandler{
 
             Boolean id = true;
 
-            for (String listItem: contactList ) {
-                if (listItem.equals(list.toArray()[0])) {
+            for (int i = 0; i < contactList.size(); i++) {
+
+                if (contactList.toArray()[i].equals(list.toArray()[0])) {
 
                     System.out.println("This item already exists. Please enter a unique entry.");
 
                     id = false;
+
+                    break;
                 }
 
             }
@@ -97,18 +100,18 @@ public class FileHandler{
 
         public void deleteContact() throws IOException {
             Input input = new Input();
-            List<String> numbers = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
+            List<String> contactList = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
             List<String> newList = new ArrayList<>();
 
             System.out.println("Enter a contact name:");
             String userInput = input.getString();
 
-            for (String number : numbers) {
-                if (number.substring(0, userInput.length()).equals(userInput)) {
+            for (String contact : contactList) {
+                if (contact.substring(0, userInput.length()).equals(userInput)) {
                     continue;
                 }
 
-                newList.add(number);
+                newList.add(contact);
             }
 
             writeFile(newList,"y");
