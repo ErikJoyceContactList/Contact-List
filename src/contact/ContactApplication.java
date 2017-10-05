@@ -5,6 +5,7 @@ import util.FileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import static com.sun.deploy.perf.DeployPerfUtil.write;
@@ -57,7 +58,19 @@ public class ContactApplication {
 
     }
     public static void displayContacts(FileHandler fileHandler){
+        List<String> aList=fileHandler.retrieveFileContents();
+        String aName, aNumber;
+        int commaIndex;
+        System.out.println("Name | Phone Number");
 
+        System.out.println("-------------------");
+
+        for (int i = 0; i < aList.size(); i++) {
+            commaIndex = aList.get(i).indexOf(",");
+            aName = aList.get(i).substring(0, commaIndex);
+            aNumber = aList.get(i).substring(commaIndex + 2);
+            System.out.println(aName + " | " + aNumber);
+        }
     }
     public static void buildList(ArrayList<String> phoneBook, ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
         Input input = new Input();
