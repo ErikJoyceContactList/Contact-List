@@ -24,6 +24,7 @@ public class ContactApplication {
     public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
         FileHandler filehandler = new FileHandler();
+        filehandler.makeFile();
         int userInput;
         do {
             System.out.println("\nPhone Application\n");
@@ -64,21 +65,20 @@ public class ContactApplication {
 
         System.out.println("Enter name of contact:");
         System.out.print("> ");
-        String name = input.getString();
+        String name = input.getString().trim();
 
         System.out.println("Enter number of contact:");
         System.out.print("> ");
-        String number = input.getString();
+        String number = input.getString().trim();
 
 
         // Add a string to String ArrayList
         phoneBook.add(name + ", " + number);
         aTemp.add(name +", "+number);
-
+        fileHandler.writeFile(aTemp,"");
 
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
         contactList.add(temp);
-        fileHandler.writeFile(aTemp,"");
     }
 }
