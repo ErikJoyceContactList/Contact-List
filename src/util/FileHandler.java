@@ -1,120 +1,85 @@
 package util;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-import contact.Contact;
-
-public class FileHandler{
+public class FileHandler {
+//        Private values
     private String directory, fileName;
-    private Path path = Paths.get("Contacts", "contacts.txt");
-
-    public static void main (String[] args) throws IOException {
-        FileHandler filehandler = new FileHandler();
-        filehandler.makeFile();
+    private Path directoryPath, filePath;
+//Getters
+    public String getDirectory() {
+        return directory;
     }
 
-//    method to create a file if it does not exist
-//    method to create a directory if it does not exist
-        public void makeFile()throws IOException{
-            if (!Files.exists(path.getParent())) {
-                Files.createDirectory(path.getParent());
-            } if (!Files.exists(path)) {
-                Files.createFile(path);
+    public String getFileName() {
+        return fileName;
+    }
+//    Filehandler constructor
+    public FileHandler(String directory, String fileName){
+        this.directory=directory;
+        this.fileName=fileName;
+
+        this.directoryPath=Paths.get(directory);
+        this.createDirectoryIfNotExist();
+
+        this.filePath=Paths.get(directory, fileName);
+        this.createFileIfNotExist();
+    }
+    public FileHandler(String fileName){
+        this.fileName=fileName;
+        this.createFileIfNotExist();
+        this.filePath=Paths.get(fileName);
+    }
+    //    1. Create a method to create the file if it does not exist.
+    private boolean createFileIfNotExist(){
+        try{
+            if(!Files.exists(this.filePath)){
+                Files.createFile(this.filePath);
+
             }
+        }catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
+//    2. Create a method to create the directory if it does not exist.
+    private boolean createDirectoryIfNotExist(){
+        try{
+            if(!Files.exists(this.directoryPath)){
+                Files.createDirectory(this.directoryPath);
+            }
+        }catch (IOException e){
+            return false;
+        }
+                return true;
+    }
+
+//    3. Create a method for retrieving file contents as a List of Strings.
+    public List<String> retrieveFileContents(){
+        try{
+            List<String> contents = Files.readAllLines(Paths.get(directory,fileName));
+            return contents;
+        }catch (IOException e){
+            return null;
         }
 
-//    method for retrieving file contents as a List of Strings
-        public void getContacts() throws IOException {
-            Path printList = Paths.get("Contacts","contacts.txt");
-            List<String> printedList = Files.readAllLines(printList);
-            String aName, aNumber;
-            int commaIndex;
-            System.out.println("Name | Phone Number");
+    }
 
-            System.out.println("-------------------");
-
-            for(int i=0 ; i < printedList.size() ; i++){
-                commaIndex=printedList.get(i).indexOf(",");
-                aName=printedList.get(i).substring(0,commaIndex);
-                aNumber=printedList.get(i).substring(commaIndex+2);
-                System.out.println(aName+" | "+aNumber);
-            }
-
+// 4. Create a method to write (append) new contents to a file. This method could have an optional parameter to choose
+//       between appending the contents of the file or not.
+    public boolean writeToFile(List<String> contents){
+        try{
+            Files.write(Paths.get(directory,fileName), contents);
+        }catch (IOException e){
+            return false;
         }
-//    Create a method to write(append) new contents to a file. Optional parameter choose to append or overwrite
-        public void writeFile(List<String> list, String rewrite) throws IOException {
-            List<String> contactList = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
-
-            Boolean id = true;
-
-            for (int i = 0; i < contactList.size(); i++) {
-
-                if (contactList.toArray()[i].equals(list.toArray()[0])) {
-
-                    System.out.println("This item already exists. Please enter a unique entry.");
-
-                    id = false;
-
-                    break;
-                }
-
-            }
-
-
-            if (id) {
-                if (rewrite.equalsIgnoreCase("y")) {
-                    Files.write(path, list);
-                } else {
-                    Files.write(path, list, StandardOpenOption.APPEND);
-                }
-            }
-        }
-
-//    Create a method to find and retrieve a phone number using a name
-
-        public String findNumber() throws IOException {
-            Input input = new Input();
-            List<String> numbers = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
-
-            System.out.println("Enter a contact name:");
-            String userInput = input.getString();
-
-            for (String number : numbers) {
-                if (number.substring(0, userInput.length()).equals(userInput)) {
-                    return number.substring(userInput.length() + 2);
-                }
-            }
-
-            return "Contact not found";
-        }
-
-//      Create a method to find and delete a phone number using a name
-
-        public void deleteContact() throws IOException {
-            Input input = new Input();
-            List<String> contactList = Files.readAllLines(Paths.get("Contacts", "contacts.txt"));
-            List<String> newList = new ArrayList<>();
-
-            System.out.println("Enter a contact name:");
-            String userInput = input.getString();
-
-            for (String contact : contactList) {
-                if (contact.substring(0, userInput.length()).equals(userInput)) {
-                    continue;
-                }
-
-                newList.add(contact);
-            }
-
-            writeFile(newList,"y");
-
-        }
+        return true;
+    }
 }

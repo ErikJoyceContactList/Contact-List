@@ -1,10 +1,10 @@
 package contact;
 import util.Input;
+//import util.FileHandlerOld;
 import util.FileHandler;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 import static com.sun.deploy.perf.DeployPerfUtil.write;
@@ -23,8 +23,7 @@ public class ContactApplication {
 
     public static void menu(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException {
         Input input = new Input();
-        FileHandler filehandler = new FileHandler();
-        filehandler.makeFile();
+        FileHandler fileHandler = new FileHandler("Contacts","contacts.txt");
         int userInput;
         do {
             System.out.println("\nPhone Application\n");
@@ -39,16 +38,16 @@ public class ContactApplication {
             userInput = input.getInt(1, 5);
             switch (userInput) {
                 case 1:
-                    filehandler.getContacts();
+                    displayContacts(fileHandler);
                     break;
                 case 2:
-                    buildList(phoneBook, contactList);
+                    buildList(phoneBook, contactList, fileHandler);
                     break;
                 case 3:
-                    System.out.println(filehandler.findNumber());
+//                    System.out.println(filehandler.findNumber());
                     break;
                 case 4:
-                    filehandler.deleteContact();
+//                    filehandler.deleteContact();
                     break;
                 case 5:
                     System.out.println("You have quit the application.");
@@ -57,10 +56,11 @@ public class ContactApplication {
         } while(userInput!=5);
 
     }
+    public static void displayContacts(FileHandler fileHandler){
 
-    public static void buildList(ArrayList<String> phoneBook, ArrayList<Contact> contactList) throws IOException{
+    }
+    public static void buildList(ArrayList<String> phoneBook, ArrayList<Contact> contactList, FileHandler fileHandler) throws IOException{
         Input input = new Input();
-        FileHandler fileHandler=new FileHandler();
         ArrayList<String> aTemp=new ArrayList<>();
 
         System.out.println("Enter name of contact:");
@@ -75,7 +75,7 @@ public class ContactApplication {
         // Add a string to String ArrayList
         phoneBook.add(name + ", " + number);
         aTemp.add(name +", "+number);
-        fileHandler.writeFile(aTemp,"");
+        fileHandler.writeToFile(aTemp);
 
         // Add an object to Contact ArrayList
         Contact temp = new Contact(name, number);
